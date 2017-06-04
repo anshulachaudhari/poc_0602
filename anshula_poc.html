@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Track Me</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+        <style>
+            body {
+                margin: 0;
+                background-color: #f2f2f2;
+            }
+            .left-menu{
+                background-color: #b3b3b3;
+            }
+            .navigation{
+                background-color: #cccccc;
+				height:1000px;
+            }
+            .main{
+                background-color: #fff;
+            }
+            
+        </style>
+        <script>
+            var app = angular.module("myApp", []);
+                app.controller('MyCtrl', function($scope) {   
+                    console.log("Welcome to controller");
+                        $scope.viewOwners;
+                        $scope.addNewOwner;
+                        $scope.editableOwner = {};
+                        $scope.ownerArray = [];
+                        $scope.changeView = function(viewName){
+                                console.log("What is View Name :"+viewName);
+                                if(viewName === "viewOwners"){
+                                    console.log("Is View Owner True");
+                                        $scope.viewOwners = true;
+                                        $scope.addNewOwner = false;
+                                }else if(viewName === "addNewOwner"){
+                                    console.log("Is Add new owner true");
+                                        $scope.viewOwners = false;
+                                        $scope.addNewOwner = true;
+                                }else{
+                                        $scope.viewOwners = false;
+                                        $scope.addNewOwner = false;
+                                }
+                        };
+                    
+                        $scope.blankForm = function(){
+                            console.log("COming to blank function");                            
+                            $scope.editableOwner = {};
+                        };
+                    
+                        $scope.saveOwner = function(ownerObject){
+                            console.log("Owner Object :%O",ownerObject);
+                            $scope.ownerArray.push(ownerObject);
+                            $scope.blankForm();
+                            console.log("Hello Owner Array :%O",$scope.ownerArray);
+                        };
+                    ///////////////////// View ///////////////////////////
+                    $scope.viewArray = [
+                        {
+                        'ownerName': "Randy James",
+                        'rentCollected': "$ 169,000",
+                        'expenses': "$ 16,000",
+                        'netIncome': "$ 153,000"
+                        },
+                        {
+                        'ownerName': "Pushban Rajalyan",
+                        'rentCollected': "$ 569,000",
+                        'expenses': "$ 34,000",
+                        'netIncome': "$ 535,000"
+                        },
+                        {
+                        'ownerName': "Adam Rockstone",
+                        'rentCollected': "$ 929,000",
+                        'expenses': "$ 90,000",
+                        'netIncome': "$ 839,000"
+                        },
+                        {
+                        'ownerName': "Jerry Morrow",
+                        'rentCollected': "$ 769,000",
+                        'expenses': "$ 76,000",
+                        'netIncome': "$ 693,000"
+                        },
+                        {
+                        'ownerName': "Brian Salavaikkal",
+                        'rentCollected': "$ 459,000",
+                        'expenses': "$ 16,000",
+                        'netIncome': "$ 443,000"
+                        },
+                        {
+                        'ownerName': "James Wayne",
+                        'rentCollected': "$ 569,000",
+                        'expenses': "$ 56,000",
+                        'netIncome': "$ 513,000"
+                        }
+                    ];
+            });
+          </script>
+    </head>
+    <body>
+        <div class="panel-body" ng-app="myApp" ng-controller="MyCtrl">
+            <div class="col-md-3 navigation">			
+			  	<h2>
+					<span class="fa-stack fa-lg">
+					  <i class="fa fa-circle fa-stack-2x"></i>
+					  <i class="fa fa-home fa-stack-1x fa-inverse"></i>
+					</span>track me</h2>
+					<div class="col-md-offset-11"><i class="fa fa-2x fa-bars" aria-hidden="true"></i></div>
+				<div class=" ">			
+					<ul class="nav nav-pills nav-stacked left-menu" id="stacked-menu">
+							<li><a class="active" href="#Dashboard">Dashboard</a></li>
+							<li><a href="#Tenants">Tenants</a></li>							
+							<li>
+							<a href="#" data-target="#item1" data-toggle="collapse" data-parent="#stacked-menu">Property Owner<span class="caret arrow"></span></a>
+							<ul class="nav nav-stacked collapse left-submenu" id="item1">
+								<li><a ng-click="changeView('viewOwners')">View Owners</a></li>
+								<li><a ng-click="changeView('addNewOwner')">Add New Owner</a></li>
+							</ul>
+							</li>					
+							<li><a href="#Manage Property">Manage Property</a></li>
+							<li><a href="#Manage Expense">Manage Expense</a></li>
+							<li><a href="#admin">admin</a></li>
+					</ul>					 
+				</div>
+			</div>
+            <div class="main" style="margin-left:25%;padding:1px 16px;height:1000px;">
+                <div ng-if="viewOwners">
+                    <h2 class ="form-group">View All Owners</h2>
+				<table class="table">
+					  <tr>
+						<input type="text" class="col-md-6 form-control" placeholder="Search">
+					  </tr>
+				</table>
+				<div class="table-responsive">          
+				  <table class="table">
+					<thead>
+						<th>#</th>
+						<th>Owner name</th>
+						<th>Rent Collected</th>
+						<th>Expense</th>
+						<th>Net income</th>						
+						<th></th>
+						<th></th>
+					</thead>
+					<tbody>
+					  <tr class="active" ng-repeat="entry in viewArray">
+						<td>{{$index + 1}}</td>
+						<td>{{entry.ownerName}}</td>
+						<td>{{entry.rentCollected}}</td>
+						<td>{{entry.expenses}}</td>						
+						<td>{{entry.netIncome}}</td>
+						<td><button type="submit" class="btn btn-default pull-right">Properties $</button></td>
+                        <td><button type="submit" class="btn btn-default pull-right">Transactions $</button></td>
+					  </tr>					  
+					</tbody>
+				    </table>
+            	    </div>
+                </div>
+                <!-----------------------------------------------ADD NEW OWNER--------------------------------------------------------->
+                <div ng-if="addNewOwner">
+                <h2 class ="form-group">Add New Property Owner</h2>
+                <div class ="col-md-7 col-md-offset-1">
+                    <form ng-submit="saveOwner(editableOwner)">
+                        <div class="row form-group">
+                            <label class="control-label col-sm-3" for="firstName">First Name:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control default" id="name" placeholder="Enter name" name="name" ng-model="editableOwner.firstName" required>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="control-label col-sm-3" for="lastName">Last Name:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="last name" placeholder="Enter Last Name" name="Last Name" ng-model="editableOwner.lastName" required>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="control-label col-sm-3" for="email">Email:</label>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" ng-model="editableOwner.email" required>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="control-label col-sm-3" for="phone">Phone:</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" id="number" placeholder="Enter phone number" name="phone" ng-model="editableOwner.phone" required>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="control-label col-sm-3" for="dob">DOB:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="dob" placeholder="Enter DOB" name="dob" ng-model="editableOwner.dob" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-default pull-right">Add Owner</button>
+                        <button type="button" class="btn btn-link pull-right">Cancel</button>
+                    </form>
+                    <div class="row">
+                        <textarea ng-repeat="data in ownerArray">
+                            {
+                            'firstName': {{data.firstName}},
+                            'lastName': {{data.lastName}},
+                            'email': {{data.email}},
+                            'phone': {{data.phone}},
+                            'dob': {{data.dob}}               
+                            }
+                        </textarea>
+                    </div>
+                 </div>
+               </div>
+            </div>
+        </div>
+    </body>
+</html>
